@@ -1,0 +1,28 @@
+AWS Services to be Used:  EC2, S3, EBS, MongoDB, AS, ELB, CloudWatch etc.  
+
+1. OS level backup will be taken with the help of AWS AMI tools which will create image. The created image will be transfer to S3 bucket. After that, we can register image as an AMI. Once done, we will get AMI id and we can use this AMI to launch new instances. Further, We will also understand the architecture and API/Request flow of the application and Accordingly plan & design the AWS Infrastructure. Below are the steps to take image and launch instance using the AMI:
+
+a. Setup Amazon environment variables, keys and cert's.
+b. Setup EC2 AMI Tools from Amazon S3
+c. Download EC2 AMI Tools:  wget http://s3.amazonaws.com/ec2-downloads/ec2-ami-tools.zip 
+d. Install EC2 AMI Tools:  unzip -d /opt/ ec2-ami-tools.zip 
+e. Bundle new AMI:   ec2-bundle-image
+f. Upload AMI files to S3 bucket:  ec2-upload-bundle
+g. Setup EC2 API Tools from Amazon S3
+h. Download EC2 API Tools:  wget http://s3.amazonaws.com/ec2-downloads/ec2-api-tools.zip 
+i. Install EC2 API Tools:   unzip -d /opt/ ec2-api-tools.zip 
+J. Register AMI with API tools:  ec2-register
+K. Run AMI instance:  ec2-run-instances ami
+L. Describe AMI instance:  ec2-describe-instances
+
+2. For Application deployment, we need to point to the same git branches which were being used earlier.
+
+3. Once the Infrastructure is setup, for deployment we can create jobs in Jenkins.
+
+4. Further, we can elastic load balancer to balance the load between the backend servers of different modules.
+
+5. Also we can use auto scaling for launching a new instance once the CPU load on the server goes more than 80%. The newly launched instance will get registered behind the ELB and ELB will start  routing the traffic to the new instance to balance the load. For highly available application we can also launch the instances in different availability zone with cross zone load balancing enabled. In case of any issue in particular region, our application will be working from the different availability zone which is registered with ELB.
+
+6. For monitoring the application, we can design and deploy custom cloudwatch plugins to monitor the system parameters like Disk Usage, Memory Utilization, Processes, TCP connections on the particular Port, CPU Utilization etc.
+
+This is how we can achieve HA and Load Balancing for any application. 
